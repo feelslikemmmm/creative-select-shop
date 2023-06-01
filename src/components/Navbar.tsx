@@ -4,6 +4,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { login, logout, onUserStateChange } from '@api/firebase';
 import { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
+import Users from './Users';
 
 type UserProps = null | User;
 
@@ -11,22 +12,8 @@ const Navbar = () => {
   const [user, setUser] = useState<UserProps>();
 
   useEffect(() => {
-    onUserStateChange((user: UserProps) => {
-      console.log(user);
-      setUser(user);
-    });
+    onUserStateChange(setUser);
   }, []);
-
-  const handleLogin = () => {
-    login().then((result: User | void) => {
-      setUser(result as User);
-      console.log('login success', user);
-    });
-  };
-
-  const handleLogout = () => {
-    logout().then(setUser);
-  };
 
   return (
     <header className="flex justify-between border-b border-gray-300 p-2">
@@ -40,8 +27,9 @@ const Navbar = () => {
         <Link to="/products/new" className="text-2xl">
           <BsFillPencilFill />
         </Link>
-        {!user && <button onClick={handleLogin}>Login</button>}
-        {user && <button onClick={handleLogout}>logout</button>}
+        {user && <Users user={user} />}
+        {!user && <button onClick={login}>Login</button>}
+        {user && <button onClick={logout}>logout</button>}
       </nav>
     </header>
   );
