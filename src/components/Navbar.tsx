@@ -12,7 +12,9 @@ const Navbar = () => {
   const [user, setUser] = useState<UserProps>();
 
   useEffect(() => {
-    onUserStateChange(setUser);
+    onUserStateChange((user: UserProps) => {
+      setUser(user);
+    });
   }, []);
 
   return (
