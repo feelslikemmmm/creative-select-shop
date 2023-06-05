@@ -1,10 +1,13 @@
 import Navbar from '@components/Navbar';
+import { AuthContexntProvider } from '@components/context/AuthContext';
 import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <Navbar />
+      <AuthContexntProvider>
+        <Navbar />
+      </AuthContexntProvider>
       <Outlet />
     </>
   );
