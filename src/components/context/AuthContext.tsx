@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { User, UserCredential } from 'firebase/auth';
 import { login, logout, onUserStateChange } from '@api/firebase';
 
@@ -16,7 +22,7 @@ type UserProps = null | CoustomUser;
 
 const AuthContexnt = createContext({} as AuthContextProps);
 
-export function AuthContexntProvider({ children }: { children: JSX.Element }) {
+export function AuthContexntProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProps>();
 
   useEffect(() => {
