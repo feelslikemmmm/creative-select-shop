@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {
   children: JSX.Element;
-  requireAdmin?: any;
+  requireAdmin?: boolean;
 }
 
 export default function ProtectedRoute({

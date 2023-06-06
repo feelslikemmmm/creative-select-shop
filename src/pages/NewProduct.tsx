@@ -1,3 +1,4 @@
+import { uploadImage } from '@api/uploader';
 import Button from '@components/ui/Button';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -25,6 +26,9 @@ export default function NewProduct() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    uploadImage(file).then((url) => {
+      console.log('url', url);
+    });
   };
 
   const productSubmit = () => {};
@@ -80,7 +84,7 @@ export default function NewProduct() {
           required
           onChange={handleChange}
         />
-        <Button text={'제품 등록하기'} onClick={productSubmit} />
+        <Button text={'제품 등록하기'} />
       </form>
     </section>
   );

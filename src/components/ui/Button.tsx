@@ -2,7 +2,7 @@ import React from 'react';
 
 interface ButtonProps {
   text: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function Button({ text, onClick }: ButtonProps) {
