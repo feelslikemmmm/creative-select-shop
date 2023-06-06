@@ -1,3 +1,4 @@
+import { addNewProduct } from '@api/firebase';
 import { uploadImage } from '@api/uploader';
 import Button from '@components/ui/Button';
 import { ChangeEvent, FormEvent, useState } from 'react';
@@ -28,6 +29,7 @@ export default function NewProduct() {
     e.preventDefault();
     uploadImage(file).then((url) => {
       console.log('url', url);
+      addNewProduct(product, url);
     });
   };
 
@@ -69,7 +71,7 @@ export default function NewProduct() {
           onChange={handleChange}
         />
         <input
-          type="number"
+          type="text"
           name="description"
           value={product.description ?? ''}
           placeholder="제품 설명"
