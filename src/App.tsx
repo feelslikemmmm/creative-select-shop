@@ -7,8 +7,8 @@ function App() {
     <>
       <AuthContexntProvider>
         <Navbar />
+        <Outlet />
       </AuthContexntProvider>
-      <Outlet />
     </>
   );
 }
