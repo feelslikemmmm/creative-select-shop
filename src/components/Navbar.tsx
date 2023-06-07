@@ -4,6 +4,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import Users from './Users';
 import Button from './ui/Button';
 import { useAuthContenxt } from '@context/AuthContext';
+import CartStatus from './CartStatus';
 
 const Navbar = () => {
   const { user, login, logout } = useAuthContenxt();
@@ -15,7 +16,11 @@ const Navbar = () => {
       </Link>
       <nav className="flex items-center gap-4 font-semibold">
         <Link to="/products">Products</Link>
-        {user && <Link to="/cart">Carts</Link>}
+        {user && (
+          <Link to="/cart">
+            <CartStatus />
+          </Link>
+        )}
         {user && user.isAdmin && (
           <Link to="/products/new" className="text-2xl">
             <BsFillPencilFill />
