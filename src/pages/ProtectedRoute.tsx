@@ -1,4 +1,4 @@
-import { useAuthContenxt } from '@components/context/AuthContext';
+import { useAuthContenxt } from '@context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {

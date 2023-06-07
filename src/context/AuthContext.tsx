@@ -10,6 +10,7 @@ import { login, logout, onUserStateChange } from '@api/firebase';
 
 interface AuthContextProps {
   user: UserProps | undefined;
+  uid: string | null | undefined;
   login: () => Promise<void | UserCredential>;
   logout: () => Promise<void>;
 }
@@ -32,7 +33,9 @@ export function AuthContexntProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContexnt.Provider value={{ user, login: login, logout: logout }}>
+    <AuthContexnt.Provider
+      value={{ user, uid: user && user.uid, login: login, logout: logout }}
+    >
       {children}
     </AuthContexnt.Provider>
   );
