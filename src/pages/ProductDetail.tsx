@@ -1,6 +1,8 @@
+import { useAuthContenxt } from '@context/AuthContext';
 import Button from '@components/ui/Button';
 import { ChangeEvent, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { addOrUpdateToCart } from '@api/firebase';
 
 interface ProductDetailProps {
   state: {
@@ -18,6 +20,7 @@ interface ProductDetailProps {
 }
 
 const ProductDetail = () => {
+  const { uid } = useAuthContenxt();
   const {
     state: {
       product: { id, image, title, description, category, price, options },
@@ -28,7 +31,10 @@ const ProductDetail = () => {
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) =>
     setSelected(e.target.value);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {};
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const product = { id, image, title, price, option: selected, quantity: 1 };
+    addOrUpdateToCart(uid, product);
+  };
 
   return (
     <section>
