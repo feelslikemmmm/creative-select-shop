@@ -13,6 +13,8 @@ export default function NewProduct() {
     options: '',
   });
   const [file, setFile] = useState<undefined | File>();
+  const [isUploading, setIsUploading] = useState(false);
+  const [success, setSuccess] = useState<undefined | string>();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
@@ -27,18 +29,33 @@ export default function NewProduct() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    uploadImage(file).then((url) => {
-      console.log('url', url);
-      addNewProduct(product, url);
-    });
+    setIsUploading(true);
+
+    uploadImage(file) //
+      .then((url) => {
+        addNewProduct(product, url) //
+          .then(() => {
+            setSuccess('성공적으로 제품이 추가되었습니다.');
+            setTimeout(() => {
+              setSuccess(undefined);
+            }, 4000);
+          });
+      })
+      .finally(() => setIsUploading(false));
   };
 
-  const productSubmit = () => {};
-
   return (
-    <section>
-      {file && <img src={URL.createObjectURL(file)} alt="local file" />}
-      <form onSubmit={handleSubmit}>
+    <section className="w-full text-center">
+      <h2 className="text-2xl font-bold my-4">새로운 제품 등록</h2>
+      {success && <p className="my-2">{success}</p>}
+      {file && (
+        <img
+          className="w-96 mx-auto mb-2"
+          src={URL.createObjectURL(file)}
+          alt="local file"
+        />
+      )}
+      <form className="flex flex-col px-12" onSubmit={handleSubmit}>
         <input
           type="file"
           accept="image/*"
@@ -86,7 +103,10 @@ export default function NewProduct() {
           required
           onChange={handleChange}
         />
-        <Button text={'제품 등록하기'} />
+        <Button
+          text={isUploading ? '업로드중...' : '제품 등록하기'}
+          disabled={isUploading}
+        />
       </form>
     </section>
   );
