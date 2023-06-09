@@ -8,6 +8,7 @@ import CartStatus from './CartStatus';
 
 const Navbar = () => {
   const { user, login, logout } = useAuthContenxt();
+
   return (
     <header className="flex justify-between border-b border-gray-300 p-2">
       <Link to="/" className="flex items-center text-4xl text-brand">
