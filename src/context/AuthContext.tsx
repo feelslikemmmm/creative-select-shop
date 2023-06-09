@@ -5,29 +5,16 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { User, UserCredential } from 'firebase/auth';
 import { login, logout, onUserStateChange } from '@api/firebase';
-
-interface AuthContextProps {
-  user: UserProps | undefined;
-  uid: string | null | undefined;
-  login: () => Promise<void | UserCredential>;
-  logout: () => Promise<void>;
-}
-
-interface CoustomUser extends User {
-  isAdmin: boolean;
-}
-
-type UserProps = null | CoustomUser;
+import { AuthContextProps, UserType } from 'src/types';
 
 const AuthContexnt = createContext({} as AuthContextProps);
 
 export function AuthContexntProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<UserProps>();
+  const [user, setUser] = useState<UserType>();
 
   useEffect(() => {
-    onUserStateChange((user: UserProps) => {
+    onUserStateChange((user: UserType) => {
       setUser(user);
     });
   }, []);
