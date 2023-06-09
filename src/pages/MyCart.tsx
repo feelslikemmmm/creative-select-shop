@@ -1,24 +1,23 @@
-import { getCart } from '@api/firebase';
 import CartItem from '@components/CartItem';
 import PriceCard from '@components/PriceCard';
 import Button from '@components/ui/Button';
-import { useAuthContenxt } from '@context/AuthContext';
-import { useQuery } from '@tanstack/react-query';
+import useCart from '@hooks/useCart';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { FaEquals } from 'react-icons/fa';
 
 export default function MyCart() {
-  const { uid } = useAuthContenxt();
-  const { isLoading, data: products } = useQuery(['carts'], () => getCart(uid));
-  console.log('products', products);
-  if (isLoading) return <p>Loading...</p>;
+  const {
+    cartQuery: { isLoading, data: products },
+  } = useCart();
 
   const hasProducts = products && products.length > 0;
   const totalPrice =
     products &&
     products.reduce((pre, cur) => pre + parseInt(cur.price) * cur.quantity, 0);
   const SHIPPING = 3000;
-  console.log('totalPrice', totalPrice);
+
+  if (isLoading) return <p>Loading...</p>;
+
   return (
     <section className="p-8 flex flex-col">
       <p className="text-2xl text-center font-bold pb-4 border-b border-gray-300">
@@ -30,7 +29,7 @@ export default function MyCart() {
           <ul className="border-b border-gray-300 mb-8 p-4 px-8">
             {products &&
               products.map((product) => (
-                <CartItem key={product.id} product={product} uid={uid} />
+                <CartItem key={product.id} product={product} />
               ))}
           </ul>
           <div className="flex justify-between items-center mb-6 px-2 md:px-8 lg:px-16">

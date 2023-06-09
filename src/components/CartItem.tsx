@@ -1,18 +1,8 @@
-import { addOrUpdateToCart, removeFromCart } from '@api/firebase';
+import useCart from '@hooks/useCart';
+import useComma from '@hooks/useComma';
 import { AiOutlineMinusSquare, AiOutlinePlusSquare } from 'react-icons/ai';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
-
-interface CartItemProps {
-  product: {
-    id: string;
-    image: string;
-    option: string;
-    price: number;
-    quantity: number;
-    title: string;
-  };
-  uid: string | null | undefined;
-}
+import { CartItemProps } from 'src/types';
 
 const ICON_CLASS =
   'transition-all cursor-pointer hover:text-brand hover:scale-105 mx-1';
@@ -20,21 +10,19 @@ const ICON_CLASS =
 export default function CartItem({
   product,
   product: { id, image, option, price, quantity, title },
-  uid,
 }: CartItemProps) {
+  const { addOrUpdateItem, removeItem } = useCart();
+  let showPrice = useComma(price);
   const handleMinus = () => {
     if (quantity < 2) return;
-    addOrUpdateToCart(uid, { ...product, quantity: quantity - 1 });
+    addOrUpdateItem.mutate({ ...product, quantity: quantity - 1 });
   };
   const handlePlus = () => {
-    addOrUpdateToCart(uid, {
-      ...product,
-      quantity: quantity + 1,
-    });
+    addOrUpdateItem.mutate({ ...product, quantity: quantity + 1 });
   };
 
   const handleDelete = () => {
-    removeFromCart(uid, id);
+    removeItem.mutate(id);
   };
 
   return (
@@ -44,7 +32,7 @@ export default function CartItem({
         <div className="basis-3/5">
           <p className="text-lg">{title}</p>
           <p className="text-xl font-bold text-brand">{option}</p>
-          <p>{`W${price}`}</p>
+          <p>{`₩${showPrice}`}</p>
         </div>
         <div className="text-2xl flex items-center">
           <AiOutlineMinusSquare className={ICON_CLASS} onClick={handleMinus} />
