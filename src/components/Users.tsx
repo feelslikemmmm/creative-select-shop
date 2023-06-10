@@ -1,8 +1,4 @@
-import { User } from 'firebase/auth';
-
-interface UserProps {
-  user: User;
-}
+import { UserProps } from 'src/types';
 
 const Users = ({ user }: UserProps) => {
   const { photoURL, displayName } = user;
