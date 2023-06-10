@@ -1,26 +1,12 @@
-import { getProducts } from '@api/firebase';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { ProductsQueryResult } from 'src/types';
 import ProductCard from './ProductCard';
-
-interface ProductsProps {
-  id: string;
-  category: string;
-  description: string;
-  file: string;
-  image: string;
-  options: string[];
-  price: number;
-  title: string;
-}
+import useProducts from '@hooks/useProducts';
 
 export default function Products() {
   const {
-    isLoading,
-    error,
-    data: products,
-  }: UseQueryResult<ProductsProps[]> = useQuery(['products'], () =>
-    getProducts()
-  );
+    productsQuery: { isLoading, error, data: products },
+  }: { productsQuery: ProductsQueryResult } = useProducts();
+
   return (
     <>
       {isLoading && <p>loading...</p>}

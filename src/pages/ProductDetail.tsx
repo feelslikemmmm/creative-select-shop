@@ -1,39 +1,34 @@
-import { useAuthContenxt } from '@context/AuthContext';
 import Button from '@components/ui/Button';
 import { ChangeEvent, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { addOrUpdateToCart } from '@api/firebase';
-
-interface ProductDetailProps {
-  state: {
-    product: {
-      id: string;
-      category: string;
-      description: string;
-      file: string;
-      image: string;
-      options: string[];
-      price: number;
-      title: string;
-    };
-  };
-}
+import { ProductDetailProps } from 'src/types';
+import useCart from '@hooks/useCart';
+import useComma from '@hooks/useComma';
 
 const ProductDetail = () => {
-  const { uid } = useAuthContenxt();
+  const { addOrUpdateItem } = useCart();
   const {
     state: {
       product: { id, image, title, description, category, price, options },
     },
   } = useLocation() as ProductDetailProps;
+
+  const [success, setSuccess] = useState<string | null>();
   const [selected, setSelected] = useState((options && options[0]) || '');
+
+  let showPrice = useComma(price);
 
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) =>
     setSelected(e.target.value);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const product = { id, image, title, price, option: selected, quantity: 1 };
-    addOrUpdateToCart(uid, product);
+    addOrUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess('장바구니에 추가되었습니다.');
+        setTimeout(() => setSuccess(null), 3000);
+      },
+    });
   };
 
   return (
@@ -44,7 +39,7 @@ const ProductDetail = () => {
         <div className="w-full basis-5/12 flex flex-col p-4">
           <h2 className="text-3xl font-bold py-2">{title}</h2>
           <p className="text-2xl font-bold py-2 border-b border-gray-400">
-            W{price}
+            ₩{showPrice}
           </p>
           <p className="py-4 text-lg">{description}</p>
           <div className="flex items-center">
@@ -63,6 +58,7 @@ const ProductDetail = () => {
                 ))}
             </select>
           </div>
+          {success && <p className="my-2">{success}</p>}
           <Button text="장바구니에 추가" onClick={handleClick} />
         </div>
       </section>

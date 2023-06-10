@@ -1,20 +1,25 @@
-import { addNewProduct } from '@api/firebase';
 import { uploadImage } from '@api/uploader';
 import Button from '@components/ui/Button';
+import useProducts from '@hooks/useProducts';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { ProductsType } from 'src/types';
 
 export default function NewProduct() {
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<ProductsType>({
+    id: '',
+    image: '',
     file: '',
     title: '',
-    price: '',
+    price: 0,
     category: '',
     description: '',
-    options: '',
+    options: [],
   });
+
   const [file, setFile] = useState<undefined | File>();
   const [isUploading, setIsUploading] = useState(false);
   const [success, setSuccess] = useState<undefined | string>();
+  const { addProduct } = useProducts();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
@@ -33,13 +38,17 @@ export default function NewProduct() {
 
     uploadImage(file) //
       .then((url) => {
-        addNewProduct(product, url) //
-          .then(() => {
-            setSuccess('성공적으로 제품이 추가되었습니다.');
-            setTimeout(() => {
-              setSuccess(undefined);
-            }, 4000);
-          });
+        addProduct.mutate(
+          { product, url },
+          {
+            onSuccess: () => {
+              setSuccess('성공적으로 제품이 추가되었습니다.');
+              setTimeout(() => {
+                setSuccess(undefined);
+              }, 4000);
+            },
+          }
+        );
       })
       .finally(() => setIsUploading(false));
   };
