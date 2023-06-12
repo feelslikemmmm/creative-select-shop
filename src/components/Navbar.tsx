@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { FiShoppingBag } from 'react-icons/fi';
 import { BsFillPencilFill } from 'react-icons/bs';
 import Users from './Users';
 import Button from './ui/Button';
@@ -11,19 +10,24 @@ const Navbar = () => {
 
   return (
     <header className="flex justify-between border-b border-gray-300 p-2">
-      <Link to="/" className="flex items-center text-4xl text-brand">
-        <FiShoppingBag />
-        <h1>Like Shop</h1>
+      <Link
+        to="/"
+        className="flex items-center text-lg text-[#555555] hover:text-[blue]"
+      >
+        <h1>Creative Select Shop</h1>
       </Link>
-      <nav className="flex items-center gap-4 font-semibold">
-        <Link to="/products">Products</Link>
+      <nav className="flex items-center gap-4 font-semibold  text-md text-[#555555]">
+        <Link to="/products" className="hover:text-[blue]">
+          Products
+        </Link>
         {user && (
           <Link to="/cart">
             <CartStatus />
           </Link>
         )}
         {user && user.isAdmin && (
-          <Link to="/products/new" className="text-2xl">
+          <Link to="/products/new" className="text-2xl text-[#555555]">
+            {/* <Link to="/products/new" className="text-md text-[#555555]"> */}
             <BsFillPencilFill />
           </Link>
         )}
