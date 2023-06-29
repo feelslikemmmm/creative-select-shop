@@ -6,7 +6,7 @@ const Users = ({ user }: UserProps) => {
   return (
     <div className="flex items-center shrink-0">
       <img
-        className="w-10 h-10 rounded-full mr-2"
+        className="w-7 h-7 md:w-10 md:h-10 rounded-full mr-2"
         src={photoURL as string}
         alt={displayName as string}
       />
