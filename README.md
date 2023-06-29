@@ -1,5 +1,5 @@
 # Creative Select Shop
-https://feelslikemmmm.github.io/portfolio-site/
+https://feelslikemmmm.github.io/creative-select-shop
 ### Front-end : React
 ### Deploy : Gitgub Pages
 ### Role: Full-stack
