@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/creative-select-shop/static/css/main.217c0d60.css",
+    "main.js": "/creative-select-shop/static/js/main.c7805bda.js",
+    "static/js/787.10561c19.chunk.js": "/creative-select-shop/static/js/787.10561c19.chunk.js",
+    "static/media/slide1.png": "/creative-select-shop/static/media/slide1.353aeba8f49aa7abc94a.png",
+    "index.html": "/creative-select-shop/index.html",
+    "main.217c0d60.css.map": "/creative-select-shop/static/css/main.217c0d60.css.map",
+    "main.c7805bda.js.map": "/creative-select-shop/static/js/main.c7805bda.js.map",
+    "787.10561c19.chunk.js.map": "/creative-select-shop/static/js/787.10561c19.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.217c0d60.css",
+    "static/js/main.c7805bda.js"
+  ]
+}
