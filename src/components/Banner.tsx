@@ -1,76 +1,92 @@
-import { useEffect, useRef, useState } from 'react';
-
-const TOTAL_SLIDES = 2;
+import { slideArray } from '@constants/SlideArray';
+import useInterval from '@hooks/useInterval';
+import { useRef, useState } from 'react';
 
 export default function Banner() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slideRef = useRef<null | HTMLDivElement>(null);
+  const [slideIndex, setSlideIndex] = useState(1);
+  const custominterval = 3000;
+  const outRef = useRef<HTMLDivElement>(null);
+  const slideRef = useRef<HTMLDivElement>(null);
 
-  const nextSlide = () => {
-    if (currentSlide >= TOTAL_SLIDES) {
-      setCurrentSlide(0);
-    } else {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
+  const SLIDE_NUM = slideArray.length;
+  const beforeSlide = slideArray[SLIDE_NUM - 1];
+  const afterSlide = slideArray[0];
 
-  const prevSlide = () => {
-    if (currentSlide === 0) {
-      setCurrentSlide(TOTAL_SLIDES);
-    } else {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
+  let copiedArr = [beforeSlide, ...slideArray, afterSlide];
+  const COPIED_NUM = copiedArr.length;
 
-  useEffect(() => {
-    if (slideRef.current !== null) {
-      slideRef.current.style.transition = 'all 0.5s ease-in-out';
-      slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-      // slideRef.current.style.width = '25px';
-      // slideRef.current.style.height = '4px';
-      console.log(slideRef);
+  useInterval(
+    () => setSlideIndex((slideIndex) => slideIndex + 1),
+    custominterval
+  );
+
+  if (slideIndex === 10) {
+    if (slideRef.current) {
+      slideRef.current.style.transition = '';
     }
-  }, [currentSlide, slideRef]);
+
+    setSlideIndex(1);
+
+    setTimeout(() => {
+      if (slideRef.current) {
+        slideRef.current.style.transition = 'all 500ms ease-in-out';
+      }
+    }, 0);
+  }
+
+  if (slideIndex === 0) {
+    setTimeout(() => {
+      if (slideRef.current) {
+        slideRef.current.style.transition = '';
+      }
+
+      setSlideIndex(8);
+
+      setTimeout(() => {
+        if (slideRef.current) {
+          slideRef.current.style.transition = 'all 500ms ease-in-out';
+        }
+      }, 0);
+    }, 500);
+  }
+
+  if (slideIndex === 5) {
+    if (slideRef.current) {
+      slideRef.current.style.transition = '';
+    }
+
+    setSlideIndex(1);
+
+    setTimeout(() => {
+      if (slideRef.current) {
+        slideRef.current.style.transition = 'all 500ms ease-in-out';
+      }
+    }, 0);
+  }
 
   return (
-    <section className="h-96 bg-yellow-900 relative">
-      <div className="w-full h-full relative" ref={slideRef}>
-        <div className="flex w-full	h-full">
-          <img
-            className="flex-none w-full h-full bg-no-repeat object-cover bg-slide1 opacity-80 z-3"
-            src={process.env.PUBLIC_URL + '/images/slide1.png'}
-            alt="slide1"
-          />
-          <img
-            className="flex-none w-full h-full bg-no-repeat object-cover bg-slide1 opacity-80 z-3"
-            src={process.env.PUBLIC_URL + '/images/slide2.png'}
-            alt="slide2"
-          />
-          <img
-            className="flex-none w-full h-full bg-no-repeat object-coverbg-slide1 opacity-80 z-3"
-            src={process.env.PUBLIC_URL + '/images/slide3.png'}
-            alt="slide3"
-          />
-        </div>
+    <section className="h-96 relative overflow-hidden z-[1] group" ref={outRef}>
+      <div
+        className="flex w-full h-full"
+        ref={slideRef}
+        style={{
+          width: `${100 * COPIED_NUM}vw`,
+          transition: 'all 500ms ease-in-out',
+          transform: `translateX(${
+            -1 * ((100 / copiedArr.length) * slideIndex)
+          }%)`,
+        }}
+      >
+        {copiedArr.map((item, idx) => (
+          <div key={idx} className="flex w-full h-full">
+            <img
+              className="flex-none w-full h-full bg-no-repeat object-cover bg-slide1 opacity-80"
+              src={item.img}
+              alt={item.alt}
+            />
+          </div>
+        ))}
       </div>
-      <ul className="absolute bottom-0 right-4 z-10 align-top">
-        <li className="inline-block">
-          <button
-            onClick={prevSlide}
-            className="block w-[8px] h-[8px] mr-3 ml-3  opacity-60	 indent-[-9999]"
-          >
-            {'<'}
-          </button>
-        </li>
-        <li className="inline-block">
-          <button
-            onClick={nextSlide}
-            className="block w-[8px] h-[8px] mr-3 ml-3 opacity-60	 indent-[-9999]"
-          >
-            {'>'}
-          </button>
-        </li>
-      </ul>
     </section>
   );
 }
