@@ -12,11 +12,11 @@ const Navbar = () => {
     <header className="flex justify-between border-b border-gray-300 p-2">
       <Link
         to="/"
-        className="flex items-center text-lg text-[#555555] hover:text-[blue]"
+        className="flex items-center text-sm md:text-lg text-[#555555] hover:text-[blue]"
       >
         <h1>Creative Select Shop</h1>
       </Link>
-      <nav className="flex items-center gap-4 font-semibold  text-md text-[#555555]">
+      <nav className="flex items-center gap-4 font-semibold  text-sm md:text-md text-[#555555]">
         <Link to="/products" className="hover:text-[blue]">
           Products
         </Link>
@@ -26,8 +26,10 @@ const Navbar = () => {
           </Link>
         )}
         {user && user.isAdmin && (
-          <Link to="/products/new" className="text-2xl text-[#555555]">
-            {/* <Link to="/products/new" className="text-md text-[#555555]"> */}
+          <Link
+            to="/products/new"
+            className="text-sm md:text-2xl text-[#555555]"
+          >
             <BsFillPencilFill />
           </Link>
         )}
