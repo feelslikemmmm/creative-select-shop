@@ -9,7 +9,7 @@ interface ButtonProps {
 export default function Button({ text, onClick, disabled }: ButtonProps) {
   return (
     <button
-      className="bg-brand text-white py-2 px-4 rounded-sm hover:brightness-110"
+      className="bg-brand text-white py-1 md:py-2 px-2 md:px-4 rounded-sm hover:brightness-110"
       onClick={onClick}
       disabled={disabled}
     >
