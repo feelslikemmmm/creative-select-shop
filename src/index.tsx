@@ -12,34 +12,37 @@ import ProductDetail from '@pages/ProductDetail';
 import MyCart from '@pages/MyCart';
 import ProtectedRoute from '@pages/ProtectedRoute';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    errorElement: <NotFound />,
-    children: [
-      { index: true, path: '/', element: <Home /> },
-      { path: '/products', element: <AllProducts /> },
-      {
-        path: '/products/new',
-        element: (
-          <ProtectedRoute requireAdmin>
-            <NewProduct />
-          </ProtectedRoute>
-        ),
-      },
-      { path: '/products/:id', element: <ProductDetail /> },
-      {
-        path: '/cart',
-        element: (
-          <ProtectedRoute>
-            <MyCart />
-          </ProtectedRoute>
-        ),
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <App />,
+      errorElement: <NotFound />,
+      children: [
+        { index: true, path: '/', element: <Home /> },
+        { path: '/products', element: <AllProducts /> },
+        {
+          path: '/products/new',
+          element: (
+            <ProtectedRoute requireAdmin>
+              <NewProduct />
+            </ProtectedRoute>
+          ),
+        },
+        { path: '/products/:id', element: <ProductDetail /> },
+        {
+          path: '/cart',
+          element: (
+            <ProtectedRoute>
+              <MyCart />
+            </ProtectedRoute>
+          ),
+        },
+      ],
+    },
+  ],
+  { basename: process.env.PUBLIC_URL }
+);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
